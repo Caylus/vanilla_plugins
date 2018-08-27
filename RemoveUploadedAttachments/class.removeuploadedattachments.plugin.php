@@ -52,7 +52,11 @@ class RemoveUploadedAttachmentsPlugin extends Gdn_Plugin {
     public function DiscussionController_Render_Before($Sender) {
         $Sender->AddJsFile('remove_functions.js', 'plugins/RemoveUploadedAttachments');
         $Sender->AddCssFile('remove_css.css', 'plugins/RemoveUploadedAttachments');
-        echo "<script>delete_button_html='" . str_replace("'", "\\'", t('Delete', '&times')) . "';</script>";
+        if (isset($Sender->Head)) {
+            $Sender->Head->addScript('', 'text/javascript', false, ['content' =>
+                "delete_button_html='" . str_replace("'", "\\'", t('Delete', '&times')) . "';"
+            ]);
+        }
     }
 
     public function plugincontroller_removeupload_create($Sender, $Args) {
